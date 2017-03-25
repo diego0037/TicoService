@@ -73,7 +73,8 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'phone' => $data['phone'],
             'email' => $data['email'],
-            'password' => Crypt::encrypt($data['password']),
+            // 'password' => Crypt::encrypt($data['password']),
+            'password' => bcrypt($data['password']),
         ]);
     }
     public function register(Request $request) {
@@ -82,7 +83,6 @@ class RegisterController extends Controller
       if ($validator->passes()){
         $user = $this->create($input)->toArray();
         $user['link'] = str_random(30);
-
         DB::table('user_activations')->insert(['id_user'=>$user['id'],'token'=>$user['link']]);
 
         Mail::send('emails.activation', $user, function($message) use ($user){
@@ -98,6 +98,7 @@ class RegisterController extends Controller
     }
 
     public function userActivation($token){
+      dd('on user activation');
       $check = DB::table('user_activations')->where('token',$token)->first();
       if(!is_null($check)){
 

@@ -21,7 +21,12 @@ Route::get('/home', 'HomeController@index');
 Route::post('loginUser', 'Auth\LoginController@Login');
 Route::get('/user/activation/{token}', 'Auth\RegisterController@userActivation');
 
-
-// Route::get('/basicemail', 'MailController@basic_email');
-// Route::get('/htmlemail', 'MailController@html_email');
-// Route::get('/attachemail', 'MailController@attachment_email');
+Route::group(['prefix' => 'services'], function(){
+  Route::get('/', 'ServiceController@index');
+  Route::get('create', 'ServiceController@create');
+  Route::post('store', 'ServiceController@store');
+  Route::get('{id}/destroy', 'ServiceController@destroy');
+  Route::put('{service}/{id}/update', 'ServiceController@update');
+});
+//
+// Route::post('services', 'ServiceController');
