@@ -17,8 +17,8 @@ class CreateCollaboratorsTable extends Migration
         $table->increments('id');
         $table->integer('id_user')->unsigned();
         $table->integer('id_service')->unsigned();
-        $table->string('description');
         $table->string('availability');
+        $table->string('description');
 
         $table->foreign('id_user')
               ->references('id')->on('users')->onDelete('cascade');
